@@ -98,11 +98,43 @@
             border-bottom: 1px solid rgba(6, 78, 59, 0.1);
             padding-bottom: 15px;
         }
-        
+
+        hwhite {
+            color: white;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(6, 78, 59, 0.1);
+            padding-bottom: 15px;
+            align-items: center !important;
+        }
         
         header p {
-            font-size: 1.2em;
+            margin-top: -10px !important; /* Aumenta este número para bajarlo más */
+            display: block !important;
+            font-size: 1.2rem !important;
+            text-align: center !important;
         }
+
+        /* Estilo para tus etiquetas p */
+        header p2, .seccion-ideas p2 {
+            display: block; /* Obligatorio para poder justificar */
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin-bottom: 15px; /* Espacio entre los párrafos */
+            
+            /* JUSTIFICADO */
+            text-align: justify !important;
+            text-justify: inter-word !important; /* Distribuye las palabras de forma natural */
+            
+            /* Para que no pegue a los bordes en móviles */
+            padding: 0 10px;
+            color: #333;
+        }
+        
+
         header img {
             width: 500px;
             height: auto;
@@ -164,6 +196,13 @@
             border-radius: 20px;
         }
 
+        .seccion-ideas {
+            margin-top: 10px !important;
+            background: #b0e0d2;
+            padding: 10px;
+            opacity: 0.9;
+            border-radius: 20px;
+        }
         
         
 
@@ -659,7 +698,68 @@
             user-select: none; /* Evita que se seleccione el icono como texto */
         }
 
+        /* Caja principal más ancha para PC */
+        .modal-universal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            overflow-y: auto;
+        }
 
+        .modal-contenedor {
+            background: white;
+            margin: 2% auto; /* Margen pequeño para PC */
+            padding: 40px;   /* Espaciado amplio de PC */
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        /* Flexbox: Por defecto en HORIZONTAL (Ordenador) */
+        .modal-contenido-flexible {
+            display: flex;
+            flex-direction: row; 
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .paso {
+            flex: 1; /* Hace que las columnas midan lo mismo en PC */
+            text-align: center;
+        }
+
+        .paso img {
+            width: 100%;
+            max-width: 280px; /* Un poco más grandes para PC */
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+
+        /* Estética extra igual */
+        .modal-cabecera { text-align: center; }
+        .modal-nota {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border-left: 4px solid #25D366;
+            margin-top: 10px;
+            text-align: justify !important;
+        }
+        .cerrar-popup {
+            position: absolute;
+            right: 20px; top: 10px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #888;
+        }
+        
         /* ====== Movile format ===== */
         @media screen and (max-width: 768px) {
             /* 1. Limpiamos el body para que el scroll fluya */
@@ -730,6 +830,13 @@
                 display: inline-block !important;
             }
 
+            header p {
+                margin-top: -10px !important; /* Aumenta este número para bajarlo más */
+                display: block !important;
+                font-size: 0.8rem !important;
+                text-align: center !important;
+            }
+
             /* 4. PLATAFORMA DE COOPERATIVISTAS (H2 fuera del header) */
             h2 {
                 font-size: 1.1rem !important; /* Bajamos de 1.5rem a 1.1rem */
@@ -740,6 +847,13 @@
 
             /* 3. TÍTULOS DE SECCIÓN (H3 fuera del header) */
             h3 {
+                font-size: 0.8rem !important; /* Bajamos de 2rem a 1.3rem */
+                letter-spacing: 2px !important;
+                margin-bottom: 10px !important;
+                padding-bottom: 10px !important;
+            }
+
+            hwhite {
                 font-size: 0.8rem !important; /* Bajamos de 2rem a 1.3rem */
                 letter-spacing: 2px !important;
                 margin-bottom: 10px !important;
@@ -971,7 +1085,7 @@
                 line-height: 1.1 !important; /* Estrecha el espacio entre las filas de texto */
                 
                 /* Mantén tus otros estilos de tamaño y posición */
-                font-size: 0.4rem !important;
+                font-size: 0.35rem !important;
                 position: absolute !important;
                 left: 55% !important;
                 transform: translateX(-50%) !important;
@@ -985,7 +1099,27 @@
 
             /* Pares arriba */
             .proposal-timeline .timeline-step:nth-child(even) span {
-                top: 10px !important; /* 15px por encima del centro (ajustado para que no choquen) */
+                top: 5px !important; /* 15px por encima del centro (ajustado para que no choquen) */
+            }
+
+            .proposal-timeline .timeline-step:nth-child(even) span {
+                /* 1. Posicionamiento respecto a la línea */
+                top: 5px !important; 
+                
+                /* 2. Convertimos el span en un contenedor flexible */
+                display: flex !important;
+                flex-direction: column !important;
+                
+                /* 3. ALINEACIÓN POR LA PALABRA MÁS BAJA */
+                justify-content: flex-end !important; /* Empuja el texto hacia el fondo de la caja */
+                
+                /* 4. Altura fija para que todos los estados tengan la misma base */
+                height: 15px !important; 
+                
+                /* Estética */
+                text-align: center !important;
+                line-height: 1.1 !important;
+                margin: 0 !important;
             }
             
             /* Esto busca el SPAN que esté dentro de un paso ACTIVO */
@@ -1066,7 +1200,43 @@
                 margin: 0;
             }
 
+            .modal-contenedor {
+                width: 5%; /* Un poco más estrecho también en móvil */
+                max-width: 320px !important;
+                padding: 20px;
+            }
+            /* Fondo oscuro del popup */
+            .modal-contenido-flexible {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px; /* Reducimos el hueco entre fotos */
+            }
+            
+            .modal-contenedor {
+                margin: 5% auto;
+                padding: 15px; /* Menos margen interno en el contenedor blanco */
+                width: 95%;
+            }
+
+            /* AQUÍ AJUSTAMOS LA NOTA */
+            .modal-nota {
+                margin-top: 15px;
+                padding: 12px 15px !important; /* Nota más "estrecha" */
+                font-size: 0.8rem !important;  /* Letra más pequeña (estaba en 1.05) */
+                line-height: 1.4 !important;    /* Texto más apretado para ahorrar espacio */
+                text-align: justify !important;
+            }
+
+            .paso img {
+                max-width: 180px; /* Fotos más pequeñas para que no empujen la nota hacia abajo */
+            }
+
+            .modal-cabecera h2 {
+                font-size: 1.3rem; /* Título un pelín más pequeño */
+            }
+
         } /* <--- ESTA LLAVE ES VITAL. CIERRA EL MODO MÓVIL */
+        
     </style>
 </head>
 <body>
@@ -1091,8 +1261,9 @@
             <h1>MEROE</h1>
             <h2>Plataforma de cooperativistas</h2>
             <p>Los Berrocales</p>
-            <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank" class="boton">Únete a WhatsApp</a>
-            <a href="Comunidades_whatsapp.pdf" target="_blank" class="boton">PDF explicación Comunidades</a>
+            <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank" class="boton">Únete a la comunidad en WhatsApp</a>
+            <a href="javascript:void(0)" onclick="abrirPopup()" class="boton">Explicación de las Comunidades</a>
+            <!-- <a href="Comunidades_whatsapp.pdf" target="_blank" class="boton">PDF explicación Comunidades</a> -->
             
             
             <div class="menu-boton" onclick="toggleMenu()">
@@ -1102,7 +1273,7 @@
             </div>
             
             <nav id="panel-lateral">
-                <div class="panel-header">MENÚ GESTIÓN MEROE</div>
+                <div class="panel-header">MENÚ MEROE</div>
                 
                 <div class="menu-item">
                     <button class="menu-desplegable-btn" onclick="toggleSubMenu('sub-constructora')">🏗️ Constructora</button>
@@ -1230,6 +1401,20 @@
         // IMPORTANTE: Cambia el evento para que sea más sensible en móviles
         window.addEventListener('scroll', reveal, { passive: true });
         window.addEventListener('touchmove', reveal, { passive: true });
+
+        
+        function abrirPopup() {
+            document.getElementById("miPopup").style.display = "block";
+        }
+
+        function cerrarPopup() {
+            document.getElementById("miPopup").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById("miPopup");
+            if (event.target == modal) { cerrarPopup(); }
+        }
     </script>
     
 
@@ -1252,73 +1437,85 @@
         </section>
 
         <section class="seccion-proposals">
-            <h3 class="titulo-lujo">Propuestas de Modificación</h3>
+            <h3>Propuestas de Modificación</h3>
         </section>
-        <section class="seccion-proposals">
-            <div class="proposal-grid">
-                
-                <div class="proposal-card">
-                    <div class="proposal-photo">
-                        <img src="oscilobatiente.jpg" alt="Ventanas">
+        <section class="seccion-proposals"> 
+            <div class="proposal-card">
+                <div class="proposal-photo">
+                    <img src="oscilobatiente.jpg" alt="Ventanas">
+                </div>
+                <div class="proposal-details">
+                    <div class="proposal-description">
+                        <h3>01. Sistema de Ventanas Oscilobatientes</h3>
+                        <p>Sustituir las <strong>ventanas</strong> abatibles y <strong>puerta cocina-exterior</strong> por <strong>oscilobatientes</strong>, con <strong>doble giro</strong>: apertura vertical para ventilación y completa hacia el interior para limpieza y acceso, aportando confort y funcionalidad.</p>
                     </div>
-                    <div class="proposal-details">
-                        <div class="proposal-description">
-                            <h3>01. Sistema de Ventanas Oscilobatientes</h3>
-                            <p>Sustituir las <strong>ventanas</strong> abatibles y <strong>puerta cocina-exterior</strong> por <strong>oscilobatientes</strong>, con <strong>doble giro</strong>: apertura vertical para ventilación y completa hacia el interior para limpieza y acceso, aportando confort y funcionalidad.</p>
-                        </div>
-                        <div class="proposal-timeline">
-                            <div class="timeline-progress" style="width: 50% !important;"></div> 
-                            <div class="timeline-step completed"><div class="circle"></div><span>EN REDACCIÓN</span></div>
-                            <div class="timeline-step completed"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
-                            <div class="timeline-step active"><div class="circle"></div><span>CONSULTA DE PRECIO</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>PRECIO APROBADO EN JUNTA</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>MODIFICACIÓN REALIZADA</span></div>
-                        </div>
+                    <div class="proposal-timeline">
+                        <div class="timeline-progress" style="width: 65% !important;"></div> 
+                        <div class="timeline-step completed"><div class="circle"></div><span>EN REDACCIÓN</span></div>
+                        <div class="timeline-step completed"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
+                        <div class="timeline-step completed"><div class="circle"></div><span>PROPUESTA ELEVADA</span></div>
+                        <div class="timeline-step completed"><div class="circle"></div><span>VOTACIÓN PARA CONSULTAR COSTES</span></div>
+                        <div class="timeline-step active"><div class="circle"></div><span>EN VALORACIÓN ECONÓMICA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>VOTACIÓN DE COSTES EN JUNTA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>APROBACIÓN</span></div>
                     </div>
                 </div>
+            </div>
         </section>
         <section class="seccion-proposals">    
-                <div class="proposal-card">
-                    <div class="proposal-photo">
-                        <img src="puerta_amario_corredera.jpg" alt="Armarios">
+            <div class="proposal-card">
+                <div class="proposal-photo">
+                    <img src="puerta_amario_corredera.jpg" alt="Armarios">
+                </div>
+                <div class="proposal-details">
+                    <div class="proposal-description">
+                        <h3>02. Armarios con Sistema Corredero</h3>
+                        <p>Optimización del espacio interior de los dormitorios sustituyendo las hojas abatibles por un <strong>sistema de guiado oculto</strong> y <strong>puertas correderas</strong> a juego con carpintería interior.</p>
                     </div>
-                    <div class="proposal-details">
-                        <div class="proposal-description">
-                            <h3>02. Armarios con Sistema Corredero</h3>
-                            <p>Optimización del espacio interior de los dormitorios sustituyendo las hojas abatibles por un <strong>sistema de guiado oculto</strong> y <strong>puertas correderas</strong> a juego con carpintería interior.</p>
-                        </div>
-                        <div class="proposal-timeline">
-                            <div class="timeline-progress" style="width: 10% !important;"></div>  
-                            <div class="timeline-step active"><div class="circle"></div><span>EN REDACCIÓN</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>CONSULTA DE PRECIO</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>PRECIO APROBADO EN JUNTA</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>MODIFICACIÓN REALIZADA</span></div>
-                        </div>
+                    <div class="proposal-timeline">
+                        <div class="timeline-progress" style="width: 8% !important;"></div>  
+                        <div class="timeline-step active"><div class="circle"></div><span>EN REDACCIÓN</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>PROPUESTA ELEVADA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>VOTACIÓN PARA CONSULTAR COSTES</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>EN VALORACIÓN ECONÓMICA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>VOTACIÓN DE COSTES EN JUNTA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>APROBACIÓN</span></div>
                     </div>
                 </div>
-        </section>
-        <section class="seccion-proposals">   
-                <div class="proposal-card"> <div class="proposal-photo">
-                        <img src="puerta_corredera_terraza.jpg" alt="Accesos">
-                    </div>
-                    <div class="proposal-details">
-                        <div class="proposal-description">
-                            <h3>03. Puertas correderas en accesos a exterior</h3>
-                            <p>Cambio de puertas abatibles de los accesos exteriores <strong>(no incluye puerta cocina-exterior)</strong> por <strong>puertas correderas</strong>, siempre que la configuración lo permita, optimizando el espacio y facilitando el paso.</p>
-                        </div>
-                        <div class="proposal-timeline">
-                            <div class="timeline-progress" style="width: 10% !important;"></div>  
-                            <div class="timeline-step active"><div class="circle"></div><span>EN REDACCIÓN</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>CONSULTA DE PRECIO</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>PRECIO APROBADO EN JUNTA</span></div>
-                            <div class="timeline-step"><div class="circle"></div><span>MODIFICACIÓN REALIZADA</span></div>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
+        </section>
+        
+        <!-- <section class="seccion-proposals">   
+            <div class="proposal-card"> <div class="proposal-photo">
+                    <img src="puerta_corredera_terraza.jpg" alt="Accesos">
+                </div>
+                <div class="proposal-details">
+                    <div class="proposal-description">
+                        <h3>03. Puertas correderas en accesos a exterior</h3>
+                        <p>Cambio de puertas abatibles de los accesos exteriores <strong>(no incluye puerta cocina-exterior)</strong> por <strong>puertas correderas</strong>, siempre que la configuración lo permita, optimizando el espacio y facilitando el paso.</p>
+                    </div>
+                    <div class="proposal-timeline">
+                        <div class="timeline-progress" style="width: 8% !important;"></div>  
+                        <div class="timeline-step active"><div class="circle"></div><span>EN REDACCIÓN</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>RECOGIDA DE FIRMAS</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>PROPUESTA ELEVADA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>VOTACIÓN PARA CONSULTAR COSTES</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>EN VALORACIÓN ECONÓMICA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>VOTACIÓN DE COSTES EN JUNTA</span></div>
+                        <div class="timeline-step"><div class="circle"></div><span>APROBACIÓN</span></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        
+        <section class="seccion-ideas">
+            <h3>¿Deseas elevar una propuesta de socios a la Promotora?</h3>
+            <p2>Redacta formalmente la propuesta.</p2>
+            <p2>Inicia la recogida de firmas para elevar la propuesta a la promotora y solicitar el estudio de esta propuesta.</p2>
+            <p2>Es importante aclarar que este paso no es una votación vinculante ni una aprobación de costes. Tu firma solo autoriza a que la Promotora traslade la propuesta a la Constructora para obtener un presupuesto real.</p2>
+            <p2>Una vez recibido el presupuesto y el sobrecoste exacto, se abrirá la Votación Definitiva, donde todos los vecinos decidiremos, con los números sobre la mesa, si aprobamos o rechazamos la ejecución de la mejora.</p2>
         </section>
     <!-- ===== Script para animación scroll ===== -->
     <script>
@@ -1366,6 +1563,30 @@
             }
         });
     </script>
-
+    <div id="miPopup" class="modal-universal">
+        <div class="modal-contenedor">
+            <span class="cerrar-popup" onclick="cerrarPopup()">&times;</span>
+            
+            <div class="modal-cabecera">
+                <h2>Guía de Comunidades</h2>
+                <p>Organiza tus grupos sin saturar el chat.</p>
+            </div>
+    
+            <div class="modal-contenido-flexible">
+                <div class="paso">
+                    <img src="comunidades_whatsapp_1.jpg" alt="Pestaña">
+                    <p><b>Paso 1:</b> Entra en la pestaña de Comunidades.</p>
+                </div>
+                <div class="paso">
+                    <img src="comunidades_whatsapp_2.jpg" alt="Interior">
+                    <p><b>Paso 2:</b> Elige el grupo que te interese o crea uno nuevo.</p>
+                </div>
+            </div>
+    
+            <div class="modal-nota">
+                La <strong>Comunidad</strong> se divide en grupos de interés para que no te sature el móvil. Los comunicados relevantes te llegarán por el canal de <strong>Anuncios</strong> (solo lectura), mientras que el grupo <strong>General</strong> funciona como el antiguo Telegram: sirve para tratar temas comunes o informar de la creación de nuevos grupos específicos para los socios. La ventaja es que <strong>solo entras en los que quieres leer o participar</strong>, manteniendo el orden y tu privacidad en todo momento.
+            </div>
+        </div>
+    </div>
 </body>
 </html>
