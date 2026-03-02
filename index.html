@@ -145,18 +145,17 @@
             padding: 0 20px;
         }
         section {
-            margin-bottom: 60px;
-            background: white;
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            opacity: 0.9;
+            opacity: 0;
             transform: translateY(20px);
             transition: all 0.6s ease-out;
+            /* Evita que el contenido bloquee el scroll si no es visible */
+            pointer-events: none; 
         }
+        
         section.visible {
-            opacity: 0.9;
+            opacity: 1; /* Cambiado de 0.9 a 1 para mejor legibilidad */
             transform: translateY(0);
+            pointer-events: auto; /* Habilita clicks cuando ya es visible */
         }
 
         /* --- BOTÓN Y PANEL PRINCIPAL --- */
