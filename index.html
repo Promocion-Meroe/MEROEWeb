@@ -688,18 +688,30 @@
                 pointer-events: none; /* Deja que tus dedos toquen el contenido de arriba */
             }
 
-            /* 3. Aseguramos que el contenido sea transparente para ver el fondo */
-            #pantalla-acceso, #contenido-privado {
-                background: transparent !important;
+            /* 3. PANTALLA DE ACCESO: Ahora es opaca y centrada */
+            #pantalla-acceso {
+                position: fixed; /* Fixeado para que tape toda la pantalla */
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                /* Volvemos a poner el fondo aquí para que NO se vea lo de atrás */
+                background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("meroe2.jpg") no-repeat center center;
+                background-size: cover;
+                
+                display: flex;         /* Activamos Flexbox */
+                justify-content: center; /* Centrado horizontal */
+                align-items: center;     /* Centrado vertical */
+                z-index: 10000;         /* Por encima de TODO */
+            }
+
+            /* 4. Aseguramos que el contenido privado esté oculto de verdad */
+            #contenido-privado {
+                display: none; 
                 position: relative;
                 z-index: 1;
             }
 
-            /* Forzamos que el contenido esté delante */
-            #pantalla-acceso, #contenido-privado {
-                position: relative; /* Esto permite que el z-index funcione */
-                z-index: 1; 
-            }
             /* ===== Botones Premium ===== */
             header h1 {
                 font-size: 2.8rem !important; /* Bajamos de 7rem a 2.8rem */
@@ -1057,7 +1069,7 @@
     </style>
 </head>
 <body>
-    
+    <div class="background-fixed"></div>
     <div id="pantalla-acceso">
         <div class="caja-login">
             <h2>Acceso Privado</h2>
@@ -1071,7 +1083,7 @@
             <button onclick="verificarAcceso()" class="boton">Entrar</button>
         </div>
     </div>
-    
+
     <div id="contenido-privado" style="display: none;">
         
         <header>
@@ -1147,16 +1159,9 @@
         };
     
         function entrarDirecto() {
-            // 1. Ocultamos el login
             document.getElementById('pantalla-acceso').style.display = 'none';
-            
-            // 2. Le añadimos una "clase" al body para que el CSS libere el contenido
-            document.body.classList.add('acceso-concedido');
-            
-            // 3. Despertamos el scroll
-            document.body.style.overflowY = "auto";
-            document.documentElement.style.overflowY = "auto";
-            
+            document.getElementById('contenido-privado').style.display = 'block';
+            // Actualizamos la hora para que los 10 min empiecen a contar de nuevo desde ahora
             localStorage.setItem("horaMeroe", new Date().getTime());
             if (typeof reveal === "function") reveal(); 
         }
