@@ -363,9 +363,10 @@
         }
 
         .logo-constructora {
-            width: 130px;
+            width: 110px;
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
+            margin-top: -5px;
             border-radius: 4px;
         }
 
@@ -375,19 +376,41 @@
             margin: 0;
         }
 
-        /* Contenido de Consejo (Lista) */
+        /* Contenido de Consejo (Lista de nombres) */
         .sub-menu-content-lista p {
-            padding: 10px 40px;
-            margin: 0;
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.4;
+            padding: 5px 25px !important; /* Menos espacio vertical para que no ocupe tanto */
+            margin: 0 !important;
+            font-size: 0.9rem !important; /* Tamaño pequeño y legible */
+            color: #555 !important;
+            padding: 2px 40px !important;
+            line-height: 2 !important;
+            text-align: left !important; /* Asegura que no se centren si hay espacio */
         }
 
         .sub-menu-content-lista p strong {
-            color: #064e3b;
+            font-weight: 700 !important; /* Negrita real */
+            font-size: 0.9rem !important; /* Mismo tamaño que el resto del texto */
+            color: #064e3b !important; /* Tu verde corporativo */
         }
 
+        /* Estilo para los enlaces de los Planos */
+        /* Nombres de los planos en el menú */
+        .sub-menu-content-lista a {
+            display: block !important;
+            color: #064e3b !important; /* Verde corporativo */
+            font-size: 0.85rem !important; /* Letra pequeña */
+            padding: 2px 40px !important; /* Casi nada de espacio arriba/abajo */
+            margin: 0 !important;
+            line-height: 2 !important; /* Quita el espacio entre líneas */
+            text-decoration: none !important; /* Quita el subrayado azul */
+            font-weight: bold !important;
+        }
+
+        /* Efecto al pasar el ratón por encima */
+        .sub-menu-content-lista a:hover {
+            color: #963d05 !important; /* Un verde más claro al tocar */
+            background-color: #093b18;
+        }
 
         /* ===== Cronología Minimalista de Lujo ===== */
         .timeline {
@@ -1206,7 +1229,8 @@
 
             .logo-constructora {
                 width: 80px !important; /* Ajusta este valor (antes era 130px) */
-                margin-bottom: 5px !important;
+                margin-bottom: 0px !important;
+                margin-top: -5px !important;
             }
 
             .nombre-empresa {
