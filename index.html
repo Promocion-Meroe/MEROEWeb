@@ -713,17 +713,15 @@
         /* 1. Estilo base corregido */
         .modal-contenedor {
             background: white;
-            margin: 5vh auto; 
-            padding: 25px !important; /* Añadimos espacio extra para que respire */
-            display: table;
+            margin: 2vh auto; /* Margen pequeño arriba/abajo */
+            padding: 15px;
             width: auto;
+            display: table; /* El marco abraza el contenido */
             max-width: 95vw;
+            max-height: 96vh; /* No deja que el popup sea más alto que la pantalla */
             border-radius: 15px;
             position: relative;
-        }
-
-        #contenido-dinamico {
-            padding-top: 10px; /* Separa el título del borde */
+            overflow: hidden; /* Elimina cualquier barra de scroll accidental */
         }
 
         /* Contenedor del PDF */
@@ -1434,35 +1432,55 @@
 
         
         // FUNCIÓN 1: PARA LA GUÍA DE WHATSAPP (Toda tu info antigua va aquí)
+        function abrirGuiaComunidades() {
+            const contenedor = document.getElementById("contenido-dinamico");
+            
+            // Aquí pegamos tu información para que no se pierda nada
+            contenedor.innerHTML = `
+                <div class="modal-cabecera">
+                    <h2>Guía de Comunidades</h2>
+                    <p>Organiza tus grupos sin saturar el chat.</p>
+                </div>
+                <div class="modal-contenido-flexible">
+                    <div class="paso">
+                        <img src="comunidades_whatsapp_1.jpg" alt="Pestaña" style="width:100%; max-width:250px; border-radius:10px;">
+                        <p><b>Paso 1:</b> Entra en la pestaña de Comunidades.</p>
+                    </div>
+                    <div class="paso">
+                        <img src="comunidades_whatsapp_2.jpg" alt="Interior" style="width:100%; max-width:250px; border-radius:10px;">
+                        <p><b>Paso 2:</b> Elige el grupo que te interese o crea uno nuevo.</p>
+                    </div>
+                </div>
+                <div class="modal-nota" style="text-align: justify !important;">
+                    La <strong>Comunidad</strong> se divide en grupos de interés para que no te sature el móvil. Los comunicados relevantes te llegarán por el canal de <strong>Anuncios</strong> (solo lectura), mientras que el grupo <strong>General</strong> funciona como el Telegram: sirve para tratar temas comunes o informar de la creación de nuevos grupos específicos para los socios. La ventaja es que <strong>solo entras en los que quieres leer o participar</strong>, manteniendo el orden y tu privacidad en todo momento.
+                </div>
+            `;
+            
+            document.getElementById("miPopup").style.display = "block";
+        }
+
+        // FUNCIÓN 2: PARA LOS PLANOS (Contenido nuevo)
         function abrirPdfPopup(url, titulo) {
             const contenedor = document.getElementById("contenido-dinamico");
-            // Usamos FitH para que empiece ajustado al ancho
+            
+            // El parámetro #view=FitH es vital para forzar el ajuste horizontal
             const urlLimpia = url + "#toolbar=0&navpanes=0&view=FitH";
             const esMovil = window.innerWidth < 768;
-        
+
             const anchoDeseado = esMovil ? "100%" : "850px";
-            const alturaDeseada = esMovil ? "65vh" : "75vh"; 
-        
+            const alturaDeseada = esMovil ? "60vh" : "90vh"; 
+
+            // Usamos una combinación de div y object/embed para mejor compatibilidad móvil
             contenedor.innerHTML = `
                 <h3 style="text-align:center; color:#064e3b; margin: 0 0 10px 0; font-size: 1.1rem;">📐 ${titulo}</h3>
-                
-                <div style="width: ${anchoDeseado}; 
-                            height: ${alturaDeseada}; 
-                            overflow: auto; 
-                            -webkit-overflow-scrolling: touch; 
-                            touch-action: pinch-zoom;
-                            border-radius: 10px;
-                            background: white;">
-                    
-                    <iframe src="${urlLimpia}" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:none; pointer-events: auto; display:block;">
-                    </iframe>
+                <div style="width: ${anchoDeseado}; height: ${alturaDeseada}; -webkit-overflow-scrolling: touch; overflow: auto; border-radius: 10px;">
+                    <object data="${urlLimpia}" type="application/pdf" width="100%" height="100%">
+                        <embed src="${urlLimpia}" type="application/pdf" width="100%" height="100%" />
+                        <p>Tu dispositivo no puede visualizar el PDF directamente. 
+                        <a href="${url}" target="_blank">Haz clic aquí para abrirlo.</a>
+                        </p>
+                    </object>
                 </div>
-                <p style="text-align:center; font-size:0.7rem; color:#666; margin-top:8px;">
-                    Pellizca con dos dedos para ampliar el plano
-                </p>
             `;
             
             document.getElementById("miPopup").style.display = "block";
