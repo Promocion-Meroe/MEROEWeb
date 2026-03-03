@@ -710,14 +710,25 @@
             overflow-y: auto;
         }
 
+        /* 1. Estilo base corregido */
         .modal-contenedor {
             background: white;
-            margin: 2% auto; /* Margen pequeño para PC */
-            padding: 40px;   /* Espaciado amplio de PC */
-            width: 90%;
-            max-width: 800px;
+            margin: 2vh auto; /* Margen pequeño arriba/abajo */
+            padding: 15px;
+            width: auto;
+            display: table; /* El marco abraza el contenido */
+            max-width: 95vw;
+            max-height: 96vh; /* No deja que el popup sea más alto que la pantalla */
             border-radius: 15px;
             position: relative;
+            overflow: hidden; /* Elimina cualquier barra de scroll accidental */
+        }
+
+        /* Contenedor del PDF */
+        .pdf-wrap {
+            width: 100%;
+            max-width: 900px; /* Ajusta esto según el ancho real de tus planos */
+            aspect-ratio: 4 / 3; /* Esto mantiene la proporción parecida a un folio/plano */
         }
 
         /* Flexbox: Por defecto en HORIZONTAL (Ordenador) */
@@ -1199,12 +1210,7 @@
                 color: #333;
                 margin: 0;
             }
-
-            .modal-contenedor {
-                width: 5%; /* Un poco más estrecho también en móvil */
-                max-width: 320px !important;
-                padding: 20px;
-            }
+            
             /* Fondo oscuro del popup */
             .modal-contenido-flexible {
                 flex-direction: column;
@@ -1213,9 +1219,19 @@
             }
             
             .modal-contenedor {
-                margin: 5% auto;
-                padding: 15px; /* Menos margen interno en el contenedor blanco */
-                width: 95%;
+                width: 85% !important;
+                /* En móvil mantenemos display table para que no sobre espacio abajo */
+                display: table !important; 
+                margin: 2vh auto !important;
+                padding: 10px !important;
+            }
+
+            /* Contenedor del PDF para que mantenga la forma de folio */
+            .contenedor-pdf {
+                width: 100%;
+                aspect-ratio: 1 / 1.1; /* Esto fuerza a que sea casi un cuadrado/folio */
+                overflow: hidden;
+                border-radius: 8px;
             }
 
             /* AQUÍ AJUSTAMOS LA NOTA */
@@ -1261,8 +1277,8 @@
             <h1>MEROE</h1>
             <h2>Plataforma de cooperativistas</h2>
             <p>Los Berrocales</p>
-            <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank" class="boton">Únete a la comunidad en WhatsApp</a>
-            <a href="javascript:void(0)" onclick="abrirPopup()" class="boton">Explicación de las Comunidades</a>
+            <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank" class="boton">Únete a la comunidad de WhatsApp</a>
+            <a href="javascript:void(0)" onclick="abrirGuiaComunidades()" class="boton">Explicación Comunidades</a>
             <!-- <a href="Comunidades_whatsapp.pdf" target="_blank" class="boton">PDF explicación Comunidades</a> -->
             
             
@@ -1295,8 +1311,20 @@
                     </div>
                 </div>
             
-                <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank">💬 WhatsApp</a>
+                <div class="menu-item">
+                    <button class="menu-desplegable-btn" onclick="toggleSubMenu('sub-planos')">📐 Planos zonas comunes</button>
+                    <div id="sub-planos" class="sub-menu">
+                        <div class="sub-menu-content-lista">
+                            <a href="javascript:void(0)" onclick="abrirPdfPopup('plano_planta_baja.pdf', 'Planta Baja')">Planta Baja</a>
+                            <a href="javascript:void(0)" onclick="abrirPdfPopup('plano_sotano_1.pdf', 'Planta Sótano 1')">Planta Sótano 1</a>
+                            <a href="javascript:void(0)" onclick="abrirPdfPopup('plano_sotano_2.pdf', 'Planta Sótano 2')">Planta Sótano 2</a>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="meroe_memoria_calidades.pdf" target="_blank">🏠 Memoria de Calidades</a>
+                <a href="folleto_meroe-baja.pdf" target="_blank">📄 Folleto Meroe</a>
+                <a href="https://chat.whatsapp.com/K6voRMYpnaL8LlxvP82fa0" target="_blank">💬 WhatsApp</a>
             </nav>
             
         </header>
@@ -1403,17 +1431,64 @@
         window.addEventListener('touchmove', reveal, { passive: true });
 
         
-        function abrirPopup() {
+        // FUNCIÓN 1: PARA LA GUÍA DE WHATSAPP (Toda tu info antigua va aquí)
+        function abrirGuiaComunidades() {
+            const contenedor = document.getElementById("contenido-dinamico");
+            
+            // Aquí pegamos tu información para que no se pierda nada
+            contenedor.innerHTML = `
+                <div class="modal-cabecera">
+                    <h2>Guía de Comunidades</h2>
+                    <p>Organiza tus grupos sin saturar el chat.</p>
+                </div>
+                <div class="modal-contenido-flexible">
+                    <div class="paso">
+                        <img src="comunidades_whatsapp_1.jpg" alt="Pestaña" style="width:100%; max-width:250px; border-radius:10px;">
+                        <p><b>Paso 1:</b> Entra en la pestaña de Comunidades.</p>
+                    </div>
+                    <div class="paso">
+                        <img src="comunidades_whatsapp_2.jpg" alt="Interior" style="width:100%; max-width:250px; border-radius:10px;">
+                        <p><b>Paso 2:</b> Elige el grupo que te interese o crea uno nuevo.</p>
+                    </div>
+                </div>
+                <div class="modal-nota" style="text-align: justify !important;">
+                    La <strong>Comunidad</strong> se divide en grupos de interés para que no te sature el móvil. Los comunicados relevantes te llegarán por el canal de <strong>Anuncios</strong> (solo lectura), mientras que el grupo <strong>General</strong> funciona como el Telegram: sirve para tratar temas comunes o informar de la creación de nuevos grupos específicos para los socios. La ventaja es que <strong>solo entras en los que quieres leer o participar</strong>, manteniendo el orden y tu privacidad en todo momento.
+                </div>
+            `;
+            
+            document.getElementById("miPopup").style.display = "block";
+        }
+
+        // FUNCIÓN 2: PARA LOS PLANOS (Contenido nuevo)
+        function abrirPdfPopup(url, titulo) {
+            const contenedor = document.getElementById("contenido-dinamico");
+            // view=Fit asegura que el plano se vea completo al cargar
+            const urlLimpia = url + "#toolbar=0&navpanes=0&view=Fit";
+            const esMovil = window.innerWidth < 768;
+
+            // Ajustamos el ancho: en PC 850px, en móvil total
+            const anchoDeseado = esMovil ? "100%" : "800px";
+            
+            // Altura: 70% de la pantalla en móvil para que no sobre espacio negro
+            const alturaDeseada = esMovil ? "40.5vh" : "83vh"; 
+
+            contenedor.innerHTML = `
+                <h3 style="text-align:center; color:#064e3b; margin: 0 0 10px 0; font-size: 1.1rem;">📐 ${titulo}</h3>
+                <div style="width: ${anchoDeseado}; height: ${alturaDeseada}; overflow: hidden; border-radius: 10px;">
+                    <iframe src="${urlLimpia}" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:none; display:block; background: white;">
+                    </iframe>
+                </div>
+            `;
+            
             document.getElementById("miPopup").style.display = "block";
         }
 
         function cerrarPopup() {
             document.getElementById("miPopup").style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            let modal = document.getElementById("miPopup");
-            if (event.target == modal) { cerrarPopup(); }
+            document.getElementById("contenido-dinamico").innerHTML = ""; // Limpia al cerrar
         }
     </script>
     
@@ -1567,25 +1642,7 @@
         <div class="modal-contenedor">
             <span class="cerrar-popup" onclick="cerrarPopup()">&times;</span>
             
-            <div class="modal-cabecera">
-                <h2>Guía de Comunidades</h2>
-                <p>Organiza tus grupos sin saturar el chat.</p>
-            </div>
-    
-            <div class="modal-contenido-flexible">
-                <div class="paso">
-                    <img src="comunidades_whatsapp_1.jpg" alt="Pestaña">
-                    <p><b>Paso 1:</b> Entra en la pestaña de Comunidades.</p>
-                </div>
-                <div class="paso">
-                    <img src="comunidades_whatsapp_2.jpg" alt="Interior">
-                    <p><b>Paso 2:</b> Elige el grupo que te interese o crea uno nuevo.</p>
-                </div>
-            </div>
-    
-            <div class="modal-nota">
-                La <strong>Comunidad</strong> se divide en grupos de interés para que no te sature el móvil. Los comunicados relevantes te llegarán por el canal de <strong>Anuncios</strong> (solo lectura), mientras que el grupo <strong>General</strong> funciona como el Telegram: sirve para tratar temas comunes o informar de la creación de nuevos grupos específicos para los socios. La ventaja es que <strong>solo entras en los que quieres leer o participar</strong>, manteniendo el orden y tu privacidad en todo momento.
-            </div>
+            <div id="contenido-dinamico"></div>
         </div>
     </div>
 </body>
