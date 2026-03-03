@@ -1462,19 +1462,17 @@
         // FUNCIÓN 2: PARA LOS PLANOS (Contenido nuevo)
         function abrirPdfPopup(url, titulo) {
             const contenedor = document.getElementById("contenido-dinamico");
-            // view=Fit asegura que el plano se vea completo al cargar
-            const urlLimpia = url + "#toolbar=0&navpanes=0&view=Fit";
+            
+            // page-fit asegura que se vea la página completa sin zoom inicial
+            const urlLimpia = url + "#toolbar=0&navpanes=0&view=page-fit";
             const esMovil = window.innerWidth < 768;
 
-            // Ajustamos el ancho: en PC 850px, en móvil total
-            const anchoDeseado = esMovil ? "100%" : "800px";
-            
-            // Altura: 70% de la pantalla en móvil para que no sobre espacio negro
-            const alturaDeseada = esMovil ? "40.5vh" : "83vh"; 
+            const anchoDeseado = esMovil ? "100%" : "850px";
+            const alturaDeseada = esMovil ? "60vh" : "75vh"; 
 
             contenedor.innerHTML = `
                 <h3 style="text-align:center; color:#064e3b; margin: 0 0 10px 0; font-size: 1.1rem;">📐 ${titulo}</h3>
-                <div style="width: ${anchoDeseado}; height: ${alturaDeseada}; overflow: hidden; border-radius: 10px;">
+                <div style="width: ${anchoDeseado}; height: ${alturaDeseada}; overflow: auto; -webkit-overflow-scrolling: touch; border-radius: 10px;">
                     <iframe src="${urlLimpia}" 
                             width="100%" 
                             height="100%" 
