@@ -1436,45 +1436,33 @@
         // FUNCIÓN 1: PARA LA GUÍA DE WHATSAPP (Toda tu info antigua va aquí)
         function abrirPdfPopup(url, titulo) {
             const contenedor = document.getElementById("contenido-dinamico");
-            const esMovil = window.innerWidth < 768;
-
-            // En el móvil, el secreto es no fijar la altura para que no se pegue arriba
-            const anchoDeseado = esMovil ? "100%" : "850px";
-
-            contenedor.innerHTML = `
-                <h3 style="text-align:center; color:#064e3b; margin: 0 0 15px 0; font-size: 1.1rem;">📐 ${titulo}</h3>
-                
-                <div class="contenedor-zoom" style="width: ${anchoDeseado}; overflow: auto; display: flex; justify-content: center; align-items: flex-start; background: #fff; border-radius: 10px; -webkit-overflow-scrolling: touch;">
-                    <img src="${url}" style="width: 100%; height: auto; display: block;" id="imagenPlano">
-                </div>
-                
-            `;
-            
-            document.getElementById("miPopup").style.display = "block";
-        }
-
-        // FUNCIÓN 2: PARA LOS PLANOS (Contenido nuevo)
-        function abrirPdfPopup(url, titulo) {
-            const contenedor = document.getElementById("contenido-dinamico");
-            
-            // El parámetro #view=FitH es vital para forzar el ajuste horizontal
+            // Usamos FitH para que empiece ajustado al ancho
             const urlLimpia = url + "#toolbar=0&navpanes=0&view=FitH";
             const esMovil = window.innerWidth < 768;
-
+        
             const anchoDeseado = esMovil ? "100%" : "850px";
-            const alturaDeseada = esMovil ? "60vh" : "90vh"; 
-
-            // Usamos una combinación de div y object/embed para mejor compatibilidad móvil
+            const alturaDeseada = esMovil ? "65vh" : "75vh"; 
+        
             contenedor.innerHTML = `
                 <h3 style="text-align:center; color:#064e3b; margin: 0 0 10px 0; font-size: 1.1rem;">📐 ${titulo}</h3>
-                <div style="width: ${anchoDeseado}; height: ${alturaDeseada}; -webkit-overflow-scrolling: touch; overflow: auto; border-radius: 10px;">
-                    <object data="${urlLimpia}" type="application/pdf" width="100%" height="100%">
-                        <embed src="${urlLimpia}" type="application/pdf" width="100%" height="100%" />
-                        <p>Tu dispositivo no puede visualizar el PDF directamente. 
-                        <a href="${url}" target="_blank">Haz clic aquí para abrirlo.</a>
-                        </p>
-                    </object>
+                
+                <div style="width: ${anchoDeseado}; 
+                            height: ${alturaDeseada}; 
+                            overflow: auto; 
+                            -webkit-overflow-scrolling: touch; 
+                            touch-action: pinch-zoom;
+                            border-radius: 10px;
+                            background: white;">
+                    
+                    <iframe src="${urlLimpia}" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:none; pointer-events: auto; display:block;">
+                    </iframe>
                 </div>
+                <p style="text-align:center; font-size:0.7rem; color:#666; margin-top:8px;">
+                    Pellizca con dos dedos para ampliar el plano
+                </p>
             `;
             
             document.getElementById("miPopup").style.display = "block";
